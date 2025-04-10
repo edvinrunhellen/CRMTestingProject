@@ -1,0 +1,1354 @@
+{
+	"info": {
+		"_postman_id": "a7452bfa-6a27-44ef-b21e-456dad7adcca",
+		"name": "CRM - API Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38806931"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"item": [
+				{
+					"name": "LoginGuest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test('Check if response role is GUEST', function () {",
+									"    pm.expect(pm.response.json().role).to.equal('GUEST');",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"no@email.com\",\n    \"chatid\": \"f9388286-54fe-4d5d-a274-0659e1906e03\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/login/guest",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"login",
+								"guest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response message is 'Session cleared'\", function () {",
+									"    pm.expect(pm.response.json().message).to.equal(\"Session cleared\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/login",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Admin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Role is ADMIN\", function () {",
+									"    pm.expect(pm.response.json().role).to.equal(\"ADMIN\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"m@email.com\",\n    \"password\":\"abc123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/login",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetLogin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test for specific fields in the response body",
+									"pm.test(\"Verify the username in the response\", function () {",
+									"    pm.expect(pm.response.json().username).to.equal(\"Master\");",
+									"});",
+									"",
+									"pm.test(\"Verify the role in the response\", function () {",
+									"    pm.expect(pm.response.json().role).to.equal(\"ADMIN\");",
+									"});",
+									"",
+									"pm.test(\"Verify the company in the response\", function () {",
+									"    pm.expect(pm.response.json().company).to.equal(\"demoab\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/login",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetRole",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response role is ADMIN\", function () {",
+									"    pm.expect(pm.response.json().role).to.equal(\"ADMIN\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/login/role",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"login",
+								"role"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Companies",
+			"item": [
+				{
+					"name": "GetCompanies",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response time is less than 200ms\", function () {",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/companies",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"companies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Forms",
+			"item": [
+				{
+					"name": "GetCompanyForm",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains company_info\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('company_info');",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/forms/demoab",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"forms",
+								"demoab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetFormSubjects",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains subjects\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('subjects');",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/forms/subjects",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"forms",
+								"subjects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateSubject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"inputName\", \"travel\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"travel\",\n    \"company_id\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/forms/subjects",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"forms",
+								"subjects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateSubject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Save the \"newname\" from the request body in a variable",
+									"",
+									"",
+									"// Add a test for the status code",
+									"pm.test(\"Status code is 200 and save newname\", function () {",
+									"    pm.response.to.have.status(200);",
+									"     var jsonData = pm.response.json();",
+									"    pm.collectionVariables.set(\"newname\", \"destination\");",
+									"});",
+									"",
+									"// Test for the message field in the response body",
+									"pm.test(\"Verify the message in the response\", function () {",
+									"    pm.response.to.have.jsonBody('message', 'Subject was updated.');",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"oldname\": \"{{inputName}}\",\n    \"newname\": \"destination\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/forms/subjects",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"forms",
+								"subjects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteSubject",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Test for the message in the response",
+									"pm.test(\"Verify the message in the response\", function () {",
+									"    pm.expect(pm.response.json().message).to.equal(\"Subject was deleted.\");",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/forms/subjects/{{newname}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"forms",
+								"subjects",
+								"{{newname}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Issues",
+			"item": [
+				{
+					"name": "GetIssueByCompany",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/issues",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"issues"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetIssue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Check if the response status is 200",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"// Check if the response contains the 'id' field",
+									"pm.test(\"Response contains 'id'\", function () {",
+									"    pm.expect(pm.response.json().id).to.exist;",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/issues/95174724-b419-457e-b2d9-1cfdb0e382f3",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"issues",
+								"95174724-b419-457e-b2d9-1cfdb0e382f3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateIssueState",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains message: 'Issue state was updated.'\", function () {",
+									"    pm.expect(pm.response.json().message).to.equal(\"Issue state was updated.\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"newstate\": \"OPEN\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/issues/95174724-b419-457e-b2d9-1cfdb0e382f3/state",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"issues",
+								"95174724-b419-457e-b2d9-1cfdb0e382f3",
+								"state"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetMessages",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'messages' object\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('messages').that.is.an('array');",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/issues/95174724-b419-457e-b2d9-1cfdb0e382f3/messages",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"issues",
+								"95174724-b419-457e-b2d9-1cfdb0e382f3",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateMessage",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response body contains message created successfully\", function () {",
+									"    pm.expect(pm.response.json().message).to.equal(\"Message was created successfully.\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"message\": \"We will solve this.\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/issues/95174724-b419-457e-b2d9-1cfdb0e382f3/messages",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"issues",
+								"95174724-b419-457e-b2d9-1cfdb0e382f3",
+								"messages"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response body contains message: Session cleared\", function () {",
+									"    pm.expect(pm.response.json().message).to.equal(\"Session cleared\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/login",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LoginUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"no@email.com\",\n    \"password\":\"abc123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/login",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateIssue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Request body contains expected keys\", function () {",
+									"    var requestBody = JSON.parse(pm.request.body.raw);",
+									"",
+									"    pm.expect(requestBody).to.have.property('email');",
+									"    pm.expect(requestBody).to.have.property('title');",
+									"    pm.expect(requestBody).to.have.property('subject');",
+									"    pm.expect(requestBody).to.have.property('message');",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"edvin.runhellen1@gmail.com\",\n    \"title\": \"Help\",\n    \"subject\": \"Reklamation\",\n    \"message\": \"no good quality\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/issues/create/demoab",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"issues",
+								"create",
+								"demoab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response body contains message: Session cleared\", function () {",
+									"    pm.expect(pm.response.json().message).to.equal(\"Session cleared\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/login",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Admin",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Role is ADMIN\", function () {",
+									"    pm.expect(pm.response.json().role).to.equal(\"ADMIN\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"m@email.com\",\n    \"password\":\"abc123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/login",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ServerStatus",
+			"item": [
+				{
+					"name": "ServerIsRunning",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root}}",
+							"host": [
+								"{{root}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "GetEmployeesByCompany",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains 'employees' object\", function () {",
+									"    pm.expect(pm.response.json()).to.have.property('employees').that.is.an('array');",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/users/bycompany",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"users",
+								"bycompany"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Save userId in a variable\", function () {",
+									"    pm.collectionVariables.set(\"adminUserId\", pm.response.json().userId);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Save company name in a variable\", function () {",
+									"    pm.collectionVariables.set(\"companyName\", pm.response.json().company);",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response contains userId\", function () {",
+									"    pm.expect(pm.response.json().userId).to.exist;",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"e@email.com\",\n    \"password\":\"abc123\",\n    \"username\": \"Eddo\",\n    \"company\": \"demoab\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/users/admin",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"users",
+								"admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response body contains message: Session cleared\", function () {",
+									"    pm.expect(pm.response.json().message).to.equal(\"Session cleared\");",
+									"});",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/login",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Admin On Newly Created Company",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Role is ADMIN\", function () {",
+									"    pm.expect(pm.response.json().role).to.equal(\"ADMIN\");",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"e@email.com\",\n    \"password\":\"abc123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/login",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CreateEmployee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let jsonData = pm.response.json();",
+									"pm.collectionVariables.set(\"userId\", jsonData.userId);",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\": \"Adam\",\n    \"lastname\": \"Larsson\",\n    \"email\": \"adam@email.com\",\n    \"role\": \"USER\",\n    \"password\":\"abc123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/users/create",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"users",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UpdateUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body contains user updated successfully\", function () {",
+									"    pm.expect(pm.response.json().message).to.equal(\"User updated successfully.\");",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\": \"Edvin\",\n    \"lastname\": \"Larsson\",\n    \"email\": \"adam@email.com\",\n    \"role\": \"USER\",\n    \"password\":\"abc123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{root}}/users/{{userId}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteUser",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body contains User was deleted successfully.\", function () {",
+									"    pm.expect(pm.response.json().message).to.equal(\"User was deleted successfully.\");",
+									"});",
+									"",
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/users/{{userId}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"users",
+								"{{userId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeleteAdmin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{root}}/users/{{adminUserId}}",
+							"host": [
+								"{{root}}"
+							],
+							"path": [
+								"users",
+								"{{adminUserId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "userId",
+			"value": ""
+		},
+		{
+			"key": "companyName",
+			"value": ""
+		},
+		{
+			"key": "adminUserId",
+			"value": ""
+		},
+		{
+			"key": "subjectname",
+			"value": ""
+		},
+		{
+			"key": "inputName",
+			"value": ""
+		},
+		{
+			"key": "newname",
+			"value": ""
+		}
+	]
+}

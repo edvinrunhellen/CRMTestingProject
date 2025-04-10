@@ -1,0 +1,15 @@
+{
+	"id": "2c79f10e-5b7d-4e1d-ba40-cf0acc7f3295",
+	"name": "CRM",
+	"values": [
+		{
+			"key": "root",
+			"value": "http://localhost:3000/api",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-04-10T11:42:06.559Z",
+	"_postman_exported_using": "Postman/11.23.3"
+}

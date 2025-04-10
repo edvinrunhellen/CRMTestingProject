@@ -15,12 +15,12 @@ public class Issues
     {
         Db = db;
         url += "/issues";
-        
-        app.MapGet(url, (Delegate)GetIssueByCompany).RoleAuthorization(Role.USER,Role.ADMIN);
-        app.MapGet(url + "/{issueId}", GetIssue).RoleAuthorization(Role.GUEST,Role.USER,Role.ADMIN);
-        app.MapPut(url + "/{issueId}/state", UpdateIssueState).RoleAuthorization(Role.USER,Role.ADMIN);
-        app.MapGet(url + "/{issueId}/messages", GetMessages).RoleAuthorization(Role.GUEST,Role.USER,Role.ADMIN);
-        app.MapPost(url + "/{issueId}/messages", CreateMessage).RoleAuthorization(Role.GUEST,Role.USER,Role.ADMIN);;
+
+        app.MapGet(url, (Delegate)GetIssueByCompany).RoleAuthorization(Role.USER, Role.ADMIN);
+        app.MapGet(url + "/{issueId}", GetIssue).RoleAuthorization(Role.GUEST, Role.USER, Role.ADMIN);
+        app.MapPut(url + "/{issueId}/state", UpdateIssueState).RoleAuthorization(Role.USER, Role.ADMIN);
+        app.MapGet(url + "/{issueId}/messages", GetMessages).RoleAuthorization(Role.GUEST, Role.USER, Role.ADMIN);
+        app.MapPost(url + "/{issueId}/messages", CreateMessage).RoleAuthorization(Role.GUEST, Role.USER, Role.ADMIN); ;
         app.MapPost(url + "/create/{companyName}", CreateIssue);
     }
 
@@ -35,29 +35,29 @@ public class Issues
         {
             await using (var reader = await cmd.ExecuteReaderAsync())
             {
-               List<Issue> issuesList = new List<Issue>();
-               while (reader.Read())
-               {
-                   issuesList.Add(new Issue(
-                       reader.GetGuid(reader.GetOrdinal("id")),
-                       reader.GetString(reader.GetOrdinal("company_name")),
-                       reader.GetString(reader.GetOrdinal("customer_email")),
-                       reader.GetString(reader.GetOrdinal("subject")),
-                       Enum.Parse<IssueState>(reader.GetString(reader.GetOrdinal("state"))),
-                       reader.GetString(reader.GetOrdinal("title")),
-                       reader.GetDateTime(reader.GetOrdinal("created")),
-                       reader.GetDateTime(reader.GetOrdinal("latest"))
-                       ));
-               }
+                List<Issue> issuesList = new List<Issue>();
+                while (reader.Read())
+                {
+                    issuesList.Add(new Issue(
+                        reader.GetGuid(reader.GetOrdinal("id")),
+                        reader.GetString(reader.GetOrdinal("company_name")),
+                        reader.GetString(reader.GetOrdinal("customer_email")),
+                        reader.GetString(reader.GetOrdinal("subject")),
+                        Enum.Parse<IssueState>(reader.GetString(reader.GetOrdinal("state"))),
+                        reader.GetString(reader.GetOrdinal("title")),
+                        reader.GetDateTime(reader.GetOrdinal("created")),
+                        reader.GetDateTime(reader.GetOrdinal("latest"))
+                        ));
+                }
 
-               if (issuesList.Count > 0)
-               {
-                   return Results.Ok(new { issues = issuesList });
-               }
-               else
-               {
-                   return Results.NotFound(new { message = "No issues found." });
-               }
+                if (issuesList.Count > 0)
+                {
+                    return Results.Ok(new { issues = issuesList });
+                }
+                else
+                {
+                    return Results.NotFound(new { message = "No issues found." });
+                }
             }
         }
         catch (Exception ex)
@@ -66,11 +66,11 @@ public class Issues
             return Results.Json(new { message = "Something went wrong." }, statusCode: 500);
         }
     }
-    
+
     private async Task<IResult> GetIssue(Guid issueId, HttpContext context)
     {
         var user = JsonSerializer.Deserialize<User>(context.Session.GetString("User"));
-        
+
         await using var cmd = Db.CreateCommand("SELECT * FROM companies_issues WHERE id = @issue_id AND company_name = @company_name");
         cmd.Parameters.AddWithValue("@issue_id", issueId);
         cmd.Parameters.AddWithValue("@company_name", user.Company);
@@ -110,11 +110,11 @@ public class Issues
             return Results.Json(new { message = "Something went wrong." }, statusCode: 500);
         }
     }
-    
+
     private async Task<IResult> UpdateIssueState(Guid issueId, HttpContext context, UpdateIssueStateRequest updateIssueStateRequest)
     {
         var user = JsonSerializer.Deserialize<User>(context.Session.GetString("User"));
-        
+
         await using var cmd = Db.CreateCommand("UPDATE issues SET state = @state::issue_state WHERE id = @issue_id AND company_id = @company_id");
         cmd.Parameters.AddWithValue("@state", Enum.Parse<IssueState>(updateIssueStateRequest.NewState).ToString());
         cmd.Parameters.AddWithValue("@issue_id", issueId);
@@ -136,7 +136,7 @@ public class Issues
         {
             Console.WriteLine(ex.Message);
             return Results.Json(new { message = "Something went wrong." }, statusCode: 500);
-        }    
+        }
     }
 
     private async Task<IResult> GetMessages(Guid issueId, HttpContext context)
@@ -151,11 +151,12 @@ public class Issues
         if (user.Role == Role.GUEST)
         {
             cmd.Parameters.AddWithValue("@customer_email", user.Username);
-        }   
-        else {
+        }
+        else
+        {
             cmd.Parameters.AddWithValue("@company_id", user.CompanyId);
-        } 
-        
+        }
+
         var reader = await cmd.ExecuteScalarAsync();
         if (reader == null)
         {
@@ -182,7 +183,7 @@ public class Issues
 
                 if (messageList.Count > 0)
                 {
-                    return Results.Ok(new { messages = messageList});
+                    return Results.Ok(new { messages = messageList });
                 }
                 else
                 {
@@ -196,7 +197,7 @@ public class Issues
             return Results.Json(new { message = "Something went wrong." }, statusCode: 500);
         }
     }
-    
+
     private async Task<IResult> CreateIssue(string companyName, CreateIssueRequest createIssueRequest, IEmailService email)
     {
         await using var cmd = Db.CreateCommand("SELECT * FROM companies WHERE name = @company_name");
@@ -209,8 +210,8 @@ public class Issues
             {
                 return Results.NotFound(new { message = "No company found." });
             }
-        
-            
+
+
             await using var cmd2 = Db.CreateCommand("INSERT INTO issues (company_id, customer_email, title, subject, state, created) VALUES (@company_id, @customer_email, @title, @subject, 'NEW', current_timestamp) RETURNING id;");
             cmd2.Parameters.AddWithValue("@company_id", companyId);
             cmd2.Parameters.AddWithValue("@customer_email", createIssueRequest.Email);
@@ -224,16 +225,16 @@ public class Issues
                 cmd3.Parameters.AddWithValue("@issue_id", issuesId);
                 cmd3.Parameters.AddWithValue("@message", createIssueRequest.Message);
                 cmd3.Parameters.AddWithValue("@username", createIssueRequest.Email);
-                    
+
                 try
                 {
                     int rowsAffected = await cmd3.ExecuteNonQueryAsync();
                     if (rowsAffected == 1)
                     {
-                        await email.SendEmailAsync(createIssueRequest.Email, 
-                            $"{companyName} - ISSUE: {createIssueRequest.Title}", 
-                            IssueCreatedMessage(companyName, 
-                                createIssueRequest.Message, 
+                        await email.SendEmailAsync(createIssueRequest.Email,
+                            $"{companyName} - ISSUE: {createIssueRequest.Title}",
+                            IssueCreatedMessage(companyName,
+                                createIssueRequest.Message,
                                 createIssueRequest.Title,
                                 issuesId.ToString()));
                         return Results.Ok(new { message = "Issue was created successfully." });
@@ -249,13 +250,13 @@ public class Issues
                     await using var cmd4 = Db.CreateCommand("DELETE FROM issues WHERE id = @issue_id;");
                     cmd4.Parameters.AddWithValue("@issue_id", issuesId);
                     await cmd4.ExecuteNonQueryAsync();
-                        
+
                     return Results.Conflict(new { message = "Issue was created, but something went wrong during the process, so the issue has been deleted." });
                 }
             }
             else
             {
-                return Results.Json(new { message = "Something went wrong." }, statusCode: 500);   
+                return Results.Json(new { message = "Something went wrong." }, statusCode: 500);
             }
         }
         catch (Exception ex)
@@ -275,29 +276,30 @@ public class Issues
 
         cmd.Parameters.AddWithValue("@issue_id", issueId);
         Sender sender;
-        
+
         if (user.Role == Role.GUEST)
         {
             cmd.Parameters.AddWithValue("@customer_email", user.Username);
             sender = Sender.CUSTOMER;
-        }   
-        else {
+        }
+        else
+        {
             cmd.Parameters.AddWithValue("@company_id", user.CompanyId);
             sender = Sender.SUPPORT;
-        } 
-        
+        }
+
         var reader = await cmd.ExecuteScalarAsync();
         if (reader == null)
         {
             return Results.Conflict(new { message = "You dont have access to post a message to this issue." });
         }
-        
+
         await using var cmd2 = Db.CreateCommand("INSERT INTO messages (issue_id, message, sender, username, time) VALUES (@issue_id, @message, @sender::sender, @username, current_timestamp)");
         cmd2.Parameters.AddWithValue("@issue_id", issueId);
         cmd2.Parameters.AddWithValue("@message", createMessageRequest.Message);
-        cmd2.Parameters.AddWithValue("@sender", sender);
+        cmd2.Parameters.AddWithValue("@sender", sender.ToString().ToUpper());
         cmd2.Parameters.AddWithValue("@username", user.Username);
-        
+
         try
         {
             var reader2 = await cmd2.ExecuteNonQueryAsync();
@@ -312,7 +314,7 @@ public class Issues
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.Message); 
+            Console.WriteLine(ex.Message);
             return Results.Json(new { message = "Something went wrong." }, statusCode: 500);
         }
     }
