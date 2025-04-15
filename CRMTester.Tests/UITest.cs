@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Playwright;
 using Microsoft.Playwright.MSTest;
 
+
 namespace PlaywrightTests;
 
 [TestClass]
@@ -34,9 +35,22 @@ public class DemoTest : PageTest
     }
 
     [TestMethod]
-    public async Task GetShopLink()
+    public async Task CreateIssue()
     {
         await _page.GotoAsync("http://localhost:5173/");
+        await _page.GetByRole(AriaRole.Link, new() { Name = "demoab" }).ClickAsync();
+        await _page.GetByRole(AriaRole.Textbox, new() { Name = "Your email" }).ClickAsync();
+        await _page.GetByRole(AriaRole.Textbox, new() { Name = "Your email" }).FillAsync("Eddeddsson@gmail.com");
+        await _page.GetByRole(AriaRole.Textbox, new() { Name = "Title" }).ClickAsync();
+        await _page.GetByRole(AriaRole.Textbox, new() { Name = "Title" }).FillAsync("Help");
+        await _page.GetByLabel("SubjectReklamationSkadaÖ").SelectOptionAsync(new[] { "Övrigt" });
+        await _page.GetByRole(AriaRole.Textbox, new() { Name = "Message" }).ClickAsync();
+        await _page.GetByRole(AriaRole.Textbox, new() { Name = "Message" }).FillAsync("does not work");
+        await _page.GetByRole(AriaRole.Button, new() { Name = "Create issue" }).ClickAsync();
+    }
+    [TestMethod]
+    public async Task userLoginAndHandleIssue()
+    {
 
     }
 }
