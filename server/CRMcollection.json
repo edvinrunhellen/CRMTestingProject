@@ -34,7 +34,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"no@email.com\",\n    \"chatid\": \"f9388286-54fe-4d5d-a274-0659e1906e03\"\n}",
+							"raw": "{\n    \"email\": \"eddeddsson@gmail.com\",\n    \"chatid\": \"afeb5467-2c28-4622-9204-147b3d57eb82\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -176,7 +176,7 @@
 									"});",
 									"",
 									"pm.test(\"Verify the company in the response\", function () {",
-									"    pm.expect(pm.response.json().company).to.equal(\"demoab\");",
+									"    pm.expect(pm.response.json().company).to.equal(\"Demo AB\");",
 									"});"
 								],
 								"type": "text/javascript",
@@ -309,13 +309,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{root}}/forms/demoab",
+							"raw": "{{root}}/forms/Demo%20AB",
 							"host": [
 								"{{root}}"
 							],
 							"path": [
 								"forms",
-								"demoab"
+								"Demo%20AB"
 							]
 						}
 					},
@@ -830,14 +830,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{root}}/issues/create/demoab",
+							"raw": "{{root}}/issues/create/Demo%20AB",
 							"host": [
 								"{{root}}"
 							],
 							"path": [
 								"issues",
 								"create",
-								"demoab"
+								"Demo%20AB"
 							]
 						}
 					},
@@ -1053,7 +1053,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"e@email.com\",\n    \"password\":\"abc123\",\n    \"username\": \"Eddo\",\n    \"company\": \"demoab\"\n}",
+							"raw": "{\n    \"email\": \"e@email.com\",\n    \"password\":\"abc123\",\n    \"username\": \"Eddo\",\n    \"company\": \"Demo AB\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
