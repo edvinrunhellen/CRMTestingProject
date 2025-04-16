@@ -1,5 +1,14 @@
 ﻿# CRM-Project 
 
+# Förstudie:
+https://docs.google.com/document/d/1BviATJksVEjiD6K-38cMDw8yDxnoCOM5EIaqHS-5oQQ/edit?usp=sharing
+
+# Testfall
+https://docs.google.com/spreadsheets/d/1oa_WiwT8AONyrLPx_DCHUZA5BUY-8X7Or_jN_EciQ0c/edit?usp=sharing
+
+# Slutrapport
+https://docs.google.com/document/d/1LuxFeJoL_trcpKMLrw-V0RohWUqTOqYuN6DcAFsN2Mw/edit?usp=sharing
+
 ## Setup
 
 ### Install dependencis
